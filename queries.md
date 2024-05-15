@@ -21,7 +21,7 @@ Project: {name: 1, founded_year: 1, _id: 0}
 ### 4. All the companies that had a Valuation Amount of more than 100.000.000 and have been founded before 2010. Retrieve only the `name` and `ipo` fields.
 
 
-Filter: {$and: [{ipo: {$gt: 100000000}}, {founded_year: {$lt: 2010}}]}
+Filter: {$and: [{"ipo.valuation_amount": {$gt: 100000000}}, {founded_year: {$lt: 2010}}]}
 Project: {name: 1, ipo: 1, _id: 0}
 
 
@@ -33,7 +33,7 @@ Limit: 10
 
 ### 6. All the companies that don't include the `partners` field.
 
-Filter: {partners: {$exists: false}}
+Filter: {partners: {$exists: false, $eq: []}}
 
 ### 7. All the companies that have a null type of value on the `category_code` field.
 
@@ -47,7 +47,7 @@ Project: {name: 1, number_of_employees: 1, _id: 0}
 ### 9. Order all the companies by their IPO price in a descending order.
 
 Filter: {}
-Sort: {ipo: -1}
+Sort: {"ipo.valuation_amount": -1}
 
 ### 10. Retrieve the 10 companies with most employees, order by the `number of employees`
 
@@ -69,6 +69,7 @@ Filter: {$and: [{acquisitions.price_amount: {$gt: 10000000}}, {founded_year: {$l
 
 Filter: {founded_year: {$gt: 2010}}
 Project: {acquisition: 1, name: 1, _id: 0}
+Sort: {"acquisition.price_amount": 1}
 
 ### 14. Order the companies by their `founded year`, retrieving only their `name` and `founded year`.
 
@@ -89,7 +90,7 @@ Sort: {number_of_employees: 1}
 
 ### 17. All the companies whose acquisition amount is more than 10.000.000, and currency is 'EUR'.
 
-Filter: {$and: [{"acquisition.price_amount": {$gt: 10000000}}, {"ipo.valuation_currency_code": "EUR"}]}
+Filter: {$and: [{"acquisition.price_amount": {$gt: 10000000}}, {"acquisition.price_currency_code": "EUR"}]}
 
 
 ### 18. All the companies that have been acquired on the first trimester of the year. Limit the search to 10 companies, and retrieve only their `name` and `acquisition` fields.
